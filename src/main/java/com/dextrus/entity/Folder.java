@@ -1,5 +1,6 @@
 package com.dextrus.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,7 @@ public class Folder {
 	private int id;
 	private String name;
 	private String type;
-	private Integer parentID;
+	private Integer parentid;
 	public int getId() {
 		return id;
 	}
@@ -33,10 +34,10 @@ public class Folder {
 		this.type = type;
 	}
 	public Integer getParentID() {
-		return parentID;
+		return parentid;
 	}
-	public void setParentID(Integer parentID) {
-		this.parentID = parentID;
+	public void setParentID(Integer parentid) {
+		this.parentid = parentid;
 	}
 
 		

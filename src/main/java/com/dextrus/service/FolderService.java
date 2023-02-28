@@ -12,6 +12,8 @@ import com.dextrus.dao.FolderRepository;
 import com.dextrus.entity.Explorer;
 import com.dextrus.entity.Folder;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class FolderService {
 
@@ -44,6 +46,24 @@ public class FolderService {
         
         return roots;
     }
+
+	public List<Explorer> addFolderOrFile(String type, String name, int parentId) {
+		Folder folder = new Folder();
+		folder.setName(name);
+		folder.setParentID(parentId);
+		folder.setType(type);
+		folderRepository.save(folder);
+		List<Explorer> explorer = getExplorer(); 
+		return explorer;
+	}
+
+	@Transactional
+	public List<Explorer> deleteFileOrFolder(int id) {
+		folderRepository.deleteAllByParentId(id);
+		folderRepository.deleteById(id);
+		List<Explorer> explorer = getExplorer();
+		return explorer;
+	}
 	
 
 	
