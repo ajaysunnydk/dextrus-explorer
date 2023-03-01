@@ -30,14 +30,19 @@ public class ExplorerController {
 		return new ResponseEntity<Explorer>(exp,HttpStatus.OK) ;
 	}
 	@PostMapping("/{type}/{name}/{parentId}")
-	private ResponseEntity<Explorer> addFolderOrFile(@PathVariable String type, @PathVariable String name, @PathVariable int parentId){
-		List<Explorer> explorer = folderService.addFolderOrFile(type,name,parentId);
-		return null;
+	private ResponseEntity<Void> addFolderOrFile(@PathVariable String type, @PathVariable String name, @PathVariable int parentId){
+		folderService.addFolderOrFile(type,name,parentId);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@DeleteMapping("/{id}")
-	private ResponseEntity<Explorer> deleteFileOrFolder(@PathVariable int id){
-		List<Explorer> explorer = folderService.deleteFileOrFolder(id);
-		return null;
+	private ResponseEntity<Void> deleteFileOrFolder(@PathVariable int id){
+		folderService.deleteFileOrFolder(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	@PutMapping("/{id}/{newName}")
+	private ResponseEntity<Void> renameFileOrFolder(@PathVariable int id, @PathVariable String newName){
+		folderService.renameFileOrFolder(id,newName);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 }

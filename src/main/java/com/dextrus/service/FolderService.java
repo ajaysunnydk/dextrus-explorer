@@ -47,22 +47,33 @@ public class FolderService {
         return roots;
     }
 
-	public List<Explorer> addFolderOrFile(String type, String name, int parentId) {
-		Folder folder = new Folder();
-		folder.setName(name);
-		folder.setParentID(parentId);
-		folder.setType(type);
-		folderRepository.save(folder);
-		List<Explorer> explorer = getExplorer(); 
-		return explorer;
+	public void addFolderOrFile(String type, String name, int parentId) {
+		int count = folderRepository.countOfRowsWithSameNameAndParentId(parentId, name);
+		if(count==0) {
+			Folder folder = new Folder();
+			folder.setName(name);
+			folder.setParentID(parentId);
+			folder.setType(type);
+			folderRepository.save(folder);			
+		}
+		else {
+			name += "("+count+")";
+			Folder folder = new Folder();
+			folder.setName(name);
+			folder.setParentID(parentId);
+			folder.setType(type);
+			folderRepository.save(folder);	
+		}
 	}
 
 	@Transactional
-	public List<Explorer> deleteFileOrFolder(int id) {
+	public void deleteFileOrFolder(int id) {
 		folderRepository.deleteAllByParentId(id);
 		folderRepository.deleteById(id);
-		List<Explorer> explorer = getExplorer();
-		return explorer;
+	}
+
+	public void renameFileOrFolder(int id, String newName) {
+
 	}
 	
 
