@@ -19,30 +19,38 @@ import com.dextrus.service.FolderService;
 @RestController
 @RequestMapping("/dextrus")
 public class ExplorerController {
-	
+
 	@Autowired
 	private FolderService folderService;
-	
+
 	@GetMapping("/explorer")
-	private ResponseEntity<Explorer> getExplorer(){
+	private ResponseEntity<Explorer> getExplorer() {
 		List<Explorer> explorer = folderService.getExplorer();
 		Explorer exp = explorer.get(0);
-		return new ResponseEntity<Explorer>(exp,HttpStatus.OK) ;
+		return new ResponseEntity<Explorer>(exp, HttpStatus.OK);
 	}
+
 	@PostMapping("/{type}/{name}/{parentId}")
-	private ResponseEntity<Void> addFolderOrFile(@PathVariable String type, @PathVariable String name, @PathVariable int parentId){
-		folderService.addFolderOrFile(type,name,parentId);
+	private ResponseEntity<Void> addFolderOrFile(@PathVariable String type, @PathVariable String name,
+			@PathVariable int parentId) {
+		folderService.addFolderOrFile(type, name, parentId);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
+
 	@DeleteMapping("/{id}")
-	private ResponseEntity<Void> deleteFileOrFolder(@PathVariable int id){
-		folderService.deleteFileOrFolder(id);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	private ResponseEntity<Void> deleteFileOrFolder(@PathVariable int id) {
+		if (folderService.deleteFileOrFolder(id) == "PARENT_NULL") {
+			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+		} else {
+			folderService.deleteFileOrFolder(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
 	}
+
 	@PutMapping("/{id}/{newName}")
-	private ResponseEntity<Void> renameFileOrFolder(@PathVariable int id, @PathVariable String newName){
-		folderService.renameFileOrFolder(id,newName);
+	private ResponseEntity<Void> renameFileOrFolder(@PathVariable int id, @PathVariable String newName) {
+		folderService.renameFileOrFolder(id, newName);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-	
+
 }
