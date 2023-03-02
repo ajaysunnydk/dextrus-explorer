@@ -48,7 +48,7 @@ public class FolderService {
     }
 
 	public void addFolderOrFile(String type, String name, int parentId) {
-		int count = folderRepository.countOfRowsWithSameNameAndParentId(parentId, name);
+		int count = folderRepository.countOfRowsWithSameNameAndParentId(parentId, name+"%");
 		if(count==0) {
 			Folder folder = new Folder();
 			folder.setName(name);
@@ -64,6 +64,7 @@ public class FolderService {
 			folder.setType(type);
 			folderRepository.save(folder);	
 		}
+		System.out.println(count);
 	}
 
 	@Transactional

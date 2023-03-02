@@ -13,6 +13,6 @@ public interface FolderRepository extends JpaRepository<Folder, Integer>{
     void deleteAllByParentId(Integer parentId);
     @Query("UPDATE Folder f SET f.name = ?1 WHERE f.id = ?2")
     void renameFileOrFolder(String name,int id);
-    @Query("SELECT COUNT(*) FROM Folder f WHERE f.parentid = ?1 AND f.name LIKE '%?2%';")
-    int countOfRowsWithSameNameAndParentId(Integer parentId, String name);
+    @Query("SELECT COUNT(*) FROM Folder f WHERE f.parentid = ?1 AND f.name LIKE ?2")
+    int countOfRowsWithSameNameAndParentId(Integer parentId, String namePattern);
 }
