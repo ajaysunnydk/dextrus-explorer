@@ -38,12 +38,11 @@ public class ExplorerController {
 	}
 
 	@DeleteMapping("/{id}")
-	private ResponseEntity<Void> deleteFileOrFolder(@PathVariable int id) {
+	private ResponseEntity<String> deleteFileOrFolder(@PathVariable int id) {
 		if (folderService.deleteFileOrFolder(id) == "PARENT_NULL") {
-			return new ResponseEntity<Void>(HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<String>("PARENT_NULL",HttpStatus.OK);
 		} else {
-			folderService.deleteFileOrFolder(id);
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<String>("DELETED",HttpStatus.OK);
 		}
 	}
 

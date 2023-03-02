@@ -68,7 +68,7 @@ public class FolderService {
 
 	@Transactional
 	public String deleteFileOrFolder(int id) {
-		if(folderRepository.issParentNull(id)=="NULL")
+		if(folderRepository.isParentNull(id).equals("NULL"))
 			return "PARENT_NULL";
 		else {
 			folderRepository.deleteAllByParentId(id);
